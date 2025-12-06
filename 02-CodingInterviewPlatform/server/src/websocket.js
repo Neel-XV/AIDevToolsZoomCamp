@@ -26,7 +26,7 @@ export function initWebSocketServer(server) {
 
                 switch (message.type) {
                     case 'create-room':
-                        handleCreateRoom(ws, message);
+                        currentRoomId = handleCreateRoom(ws, message);
                         break;
                     case 'join-room':
                         currentRoomId = handleJoinRoom(ws, message);
@@ -81,6 +81,8 @@ function handleCreateRoom(ws, message) {
         type: 'room-created',
         roomId: roomId
     }));
+
+    return roomId;
 }
 
 /**

@@ -162,6 +162,42 @@ Access the application at `http://localhost:3000`
 - Production-ready Node.js configuration
 - Automatic frontend build and integration
 
+See [DOCKER.md](DOCKER.md) for detailed Docker setup and troubleshooting.
+
+## 🌐 Cloud Deployment
+
+### Deploy to Render
+
+Deploy your application to the cloud with Render's free tier:
+
+```bash
+# 1. Push your code to GitHub
+git add .
+git commit -m "Ready for deployment"
+git push
+
+# 2. Deploy using render.yaml
+# - Go to https://dashboard.render.com
+# - Create a new Blueprint
+# - Connect your GitHub repository
+# - Render will automatically detect render.yaml and deploy
+```
+
+**Your app will be live at:** `https://your-app-name.onrender.com`
+
+📚 **See [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md) for complete deployment instructions, troubleshooting, and configuration.**
+
+### Other Deployment Options
+
+This Docker-based application can be deployed to:
+- **Render** (recommended) - Free tier available
+- **Railway** - Easy Docker deployment
+- **Fly.io** - Global edge deployment
+- **AWS ECS/Fargate** - Enterprise scale
+- **Google Cloud Run** - Serverless containers
+- **Azure Container Instances** - Microsoft cloud
+
+
 ## 📖 Usage
 
 ### Creating an Interview Session

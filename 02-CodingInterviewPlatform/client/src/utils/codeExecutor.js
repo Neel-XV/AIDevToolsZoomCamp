@@ -55,23 +55,35 @@ export async function executePython(code) {
     try {
         const pyodide = await initPyodide();
 
-        // Capture stdout
-        const result = await pyodide.runPythonAsync(`
+        // Setup stdout capture and execute user code
+        await pyodide.runPythonAsync(`
 import sys
 import io
 
-# Redirect stdout
-old_stdout = sys.stdout
-sys.stdout = io.StringIO()
+# Store original stdout
+_original_stdout = sys.stdout
+_capture_buffer = io.StringIO()
+sys.stdout = _capture_buffer
+`);
 
-try:
-    ${code.split('\n').map(line => '    ' + line).join('\n')}
-    output = sys.stdout.getvalue()
-finally:
-    sys.stdout = old_stdout
+        // Execute user code separately to preserve their indentation
+        try {
+            await pyodide.runPythonAsync(code);
+        } catch (execError) {
+            // Restore stdout and return error
+            await pyodide.runPythonAsync(`sys.stdout = _original_stdout`);
+            return {
+                success: false,
+                output: execError.message
+            };
+        }
 
-output
-    `);
+        // Capture output and restore stdout
+        const result = await pyodide.runPythonAsync(`
+_output = _capture_buffer.getvalue()
+sys.stdout = _original_stdout
+_output
+`);
 
         return {
             success: true,

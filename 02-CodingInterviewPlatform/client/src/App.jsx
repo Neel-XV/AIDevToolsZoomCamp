@@ -133,8 +133,7 @@ export default function App() {
 
     const handleError = (message) => {
         console.error('WebSocket error:', message.message);
-        setOutput(message.message || 'An error occurred');
-        setIsError(true);
+        // Don't pollute the code output panel with connection errors
     };
 
     const handleCodeChange = (newCode) => {
